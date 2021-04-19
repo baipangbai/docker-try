@@ -1,62 +1,31 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
 	"os"
-	"os/exec"
-	"path"
-	"strconv"
-	"syscall"
+
+	log "github.com/sirupsen/logrus"
+	"github.com/urfave/cli"
 )
 
-//挂载memory subsystem的hierarchy的根目录位置
-const cgroupMemoryHierarchyMount = "/sys/fs/cgroup/memory"
+const usage = `mydocker is a simple container runtime implementation.The purpose of this project is to learn how docker works and how to write a docker by ourselves Enjoy it, just for fun`
 
-//通过go语言实现cgroup限制容器的资源
 func main() {
+	app := cli.NewApp()
+	app.Name = "mydocker"
+	app.Usage = usage
 
-	// systemd 加入linux之后, mount namespace 就变成 shared by default, 所以你必须显示
-	//声明你要这个新的mount namespace独立。
-	// syscall.Mount("", "/", "", syscall.MS_PRIVATE|syscall.MS_REC, "")
-	// defualtMountFlags := syscall.MS_NOEXEC | syscall.MS_NOSUID | syscall.MS_NODEV
-	// syscall.Mount("proc", "/proc", "proc", uintptr(defualtMountFlags), "")
-
-	fmt.Println("os.Args[0]", os.Args[0])
-
-	if os.Args[0] == "/proc/self/exe" {
-		//容器进程
-		fmt.Printf("current pi %d", syscall.Getpid())
-		fmt.Println()
-		cmd := exec.Command("sh", "-c", `stress --vm-bytes 200m --vm-keep -m 1`)
-		cmd.SysProcAttr = &syscall.SysProcAttr{}
-		cmd.Stdin = os.Stdin
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		if err := cmd.Run(); err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
+	app.Commands = []cli.Command{
+		initCommand,
+		runCommand,
 	}
 
-	cmd := exec.Command("/proc/self/exe")
-	cmd.SysProcAttr = &syscall.SysProcAttr{
-		Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS,
+	app.Before = func(context *cli.Context) error {
+		log.SetFormatter(&log.JSONFormatter{})
+		log.SetOutput(os.Stdout)
+		return nil
 	}
-	cmd.Stdin = os.Stdin
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	if err := cmd.Start(); err != nil {
-		fmt.Println("Error", err)
-		os.Exit(1)
-	} else {
-		//得到fork出来的进程映射在外部命名空间的pid
-		fmt.Printf("%v", cmd.Process.Pid)
 
-		os.Mkdir(path.Join(cgroupMemoryHierarchyMount, "testmemorylimit"), 0755)
-
-		ioutil.WriteFile(path.Join(cgroupMemoryHierarchyMount, "testmemorylimit", "tasks"), []byte(strconv.Itoa(cmd.Process.Pid)), 0644)
-		ioutil.WriteFile(path.Join(cgroupMemoryHierarchyMount, "testmemorylimit", "memory.limit_in_bytes"), []byte("100m"), 0644)
+	if err := app.Run(os.Args); err != nil {
+		log.Fatal(err)
 	}
-	cmd.Process.Wait()
 }
