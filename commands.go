@@ -20,7 +20,6 @@ var runCommand = cli.Command{
 	},
 
 	Action: func(context *cli.Context) error {
-		log.Infof("run come on")
 		if len(context.Args()) < 1 {
 			return fmt.Errorf("Missing container command")
 		}
