@@ -86,5 +86,11 @@ func main() {
 
 ```
 
+### mount知识点
+
+> 参考链接：https://www.sohu.com/a/260181668_467784
+>
+> mount namespace
+
 
 
