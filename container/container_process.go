@@ -6,6 +6,7 @@ import (
 	"syscall"
 )
 
+//sudo mount -t proc proc /proc
 func NewParentProcess(tty bool, command string) *exec.Cmd {
 	args := []string{"init", command}
 	cmd := exec.Command("/proc/self/exe", args...)
