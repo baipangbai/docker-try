@@ -37,7 +37,7 @@ func (s *MemorySubSystem) Remove(cgroupPath string) error {
 
 //将一个进程加入到cgroupPath对应的cgroup中
 func (s *MemorySubSystem) Apply(cgroupPath string, pid int) error {
-	if subsysCgroupPath, err := GetCgroupPath(s.Name(), cgroupPath,false); err == {
+	if subsysCgroupPath, err := GetCgroupPath(s.Name(), cgroupPath,false); err ==nil {
 		if err := ioutil.WriteFile(path.Join(subsysCgroupPath, "tasks"), []byte(strconv.Itoa(pid)), 0644); err != nil {
 			return fmt.Errorf("set cgroup proc fail %v", err)
 		}

@@ -14,7 +14,7 @@ type ResourceConfig struct {
 	CpuSet      string
 }
 
-//这里将cgroup抽象成了path，原因是cgroup在hierarchy的路径，便是虚拟文件系统中的虚拟路径
+//Subsystem 这里将cgroup抽象成了path，原因是cgroup在hierarchy的路径，便是虚拟文件系统中的虚拟路径
 type Subsystem interface {
 	//返回subsystem的名字，比如cpu memory
 	Name() string
@@ -27,10 +27,12 @@ type Subsystem interface {
 }
 
 var (
-	SubsystemsIns = []Subsystem{}
+	SubsystemsIns = []Subsystem{
+		&MemorySubSystem{},
+	}
 )
 
-//通过/proc/self/mountinfo 找出挂载了某个subsystem的hierarchy group根节所在的目录
+//FindCgroupMountPoint 通过/proc/self/mountinfo 找出挂载了某个subsystem的hierarchy group根节所在的目录
 func FindCgroupMountPoint(subsystem string) string {
 	f, err := os.Open("/proc/self/mountinfo")
 	if err != nil {
