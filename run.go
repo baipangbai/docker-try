@@ -1,7 +1,8 @@
 package main
 
 import (
-	"github.com/x/subsystems"
+	"github.com/x/cgroups"
+	subsystems2 "github.com/x/cgroups/subsystems"
 	"os"
 	"strings"
 
@@ -9,7 +10,7 @@ import (
 	"github.com/x/container"
 )
 
-func Run(tty bool, comArray []string, res *subsystems.ResourceConfig) {
+func Run(tty bool, comArray []string, res *subsystems2.ResourceConfig) {
 	parent, writePipe := container.NewParentProcess(tty)
 	if parent == nil {
 		log.Errorf("New parent process error")
@@ -18,7 +19,7 @@ func Run(tty bool, comArray []string, res *subsystems.ResourceConfig) {
 	if err := parent.Start(); err != nil {
 		log.Error(err)
 	}
-	cgroupManager := subsystems.NewCgroupManager("donkey-cgroup")
+	cgroupManager := cgroups.NewCgroupManager("donkey-cgroup")
 	defer cgroupManager.Destory()
 	cgroupManager.Set(res)
 	cgroupManager.Apply(parent.Process.Pid)

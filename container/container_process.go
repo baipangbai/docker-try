@@ -14,8 +14,6 @@ func NewParentProcess(tty bool) (*exec.Cmd, *os.File) {
 		log.Errorf("New pipe error %v", err)
 		return nil, nil
 	}
-	syscall.Mount("", "/", "", syscall.MS_PRIVATE|syscall.MS_REC, "")
-
 	cmd := exec.Command("/proc/self/exe", "init")
 	cmd.SysProcAttr = &syscall.SysProcAttr{
 		Cloneflags: syscall.CLONE_NEWUTS | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS |
@@ -27,7 +25,6 @@ func NewParentProcess(tty bool) (*exec.Cmd, *os.File) {
 		cmd.Stderr = os.Stderr
 	}
 	cmd.ExtraFiles = []*os.File{readPipe}
-	cmd.Dir = "/root/busybox"
 	return cmd, writePipe
 }
 
