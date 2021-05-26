@@ -22,7 +22,7 @@
 > 那么hierarchy到底是干啥的？？？有什么具体的例子
 
 ```sequence
-​```sequence {theme="hand"}
+Note Left of CgroupManager:创建带容器资源限制各个组件之间的调用关系流程图
 CgroupManager-->Subsystem实例: 2.创建Subsystem实例
 Note Left of CgroupManager: 1.创建带资源限制的容器
 CgroupManager->Subsystem实例: 3.在每个Subsystem对应的hierarchy上创建配置cgroup
@@ -30,7 +30,6 @@ Subsystem实例-->CgroupManager: 4.创建cgroup完成
 CgroupManager->Subsystem实例: 5.将容器的进程移入每个Subsystem创建的cgroup中
 Subsystem实例-->CgroupManager: 6.完成容器进程的资源限制
 Note Left of CgroupManager: 7: 完成容器资源限制
-​```
 ```
 
 #### cgroup三个概念

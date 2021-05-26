@@ -19,13 +19,12 @@ func Run(tty bool, comArray []string, res *subsystems2.ResourceConfig) {
 	if err := parent.Start(); err != nil {
 		log.Error(err)
 	}
-	cgroupManager := cgroups.NewCgroupManager("donkey-cgroup")
+	cgroupManager := cgroups.NewCgroupManager("docker-try-cgroup")
 	defer cgroupManager.Destory()
 	cgroupManager.Set(res)
 	cgroupManager.Apply(parent.Process.Pid)
 	sendInitCommand(comArray, writePipe)
 	parent.Wait()
-	os.Exit(0)
 }
 
 func sendInitCommand(comArray []string, writePipe *os.File) {

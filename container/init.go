@@ -18,7 +18,8 @@ func RunContainerInitProcess() error {
 		return fmt.Errorf("Run container get user command error, cmdArray is nil")
 	}
 
-	setUpMount()
+	//这一步骤在创建管道的时候至关重要，必须注释掉
+	//setUpMount()
 
 	path, err := exec.LookPath(cmdArray[0])
 	if err != nil {
