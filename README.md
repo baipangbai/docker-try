@@ -43,6 +43,3 @@ Note Left of CgroupManager: 7: 完成容器资源限制
 1. cgroup hierarchy 中的节点，用于管理进程和subsystem的控制关系
 2. subsystem作用于hierarchy上的cgroup节点，并控制节点中进程的资源占用
 3. hierarchy将cgroup通过树状结构串起来，并通过虚拟文件系统的方式暴露给用户
-
-
-
