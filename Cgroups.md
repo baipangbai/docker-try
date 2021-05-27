@@ -5,7 +5,7 @@
 
 ### 疑问点
 
-> 1. hierarchy ? linux系统基础知识n
+> 1. hierarchy ? linux系统基础知识
 
 ### 简介
 
@@ -17,9 +17,15 @@ Linux Cgroups 提供了一组对进程及将来子进程的资源限制、控制
 
 #### cgroups
 
+对进程分组的一种机制，一个cgroup包含一组进程，并可以在cgroup上增加Linux subsystem的各种参数配置，将一组进程和一组subsystem的系统参数关联起来
+
 #### subsystem
 
+一组资源控制的模块
+
 #### hierarchy
+
+把一组cgroup串成一个树状的结构。通过树状结构，就可以做到继承。
 
 
 
