@@ -1,0 +1,20 @@
+stress: info: [15225] dispatching hogs: 0 cpu, 0 io, 1 vm, 0 hdd
+stress: info: [15291] dispatching hogs: 0 cpu, 0 io, 1 vm, 0 hdd
+stress: info: [15312] dispatching hogs: 0 cpu, 0 io, 1 vm, 0 hdd
+stress: FAIL: [15225] (415) <-- worker 15226 got signal 15
+stress: WARN: [15225] (417) now reaping child worker processes
+stress: FAIL: [15225] (451) failed run completed in 558s
+stress: FAIL: [15291] (415) <-- worker 15292 got signal 15
+stress: WARN: [15291] (417) now reaping child worker processes
+stress: FAIL: [15291] (451) failed run completed in 225s
+stress: FAIL: [15312] (415) <-- worker 15313 got signal 15
+stress: WARN: [15312] (417) now reaping child worker processes
+stress: FAIL: [15312] (451) failed run completed in 185s
+stress: info: [15439] dispatching hogs: 0 cpu, 0 io, 1 vm, 0 hdd
+stress: info: [15492] dispatching hogs: 0 cpu, 0 io, 1 vm, 0 hdd
+stress: FAIL: [15439] (415) <-- worker 15440 got signal 15
+stress: WARN: [15439] (417) now reaping child worker processes
+stress: FAIL: [15439] (451) failed run completed in 146s
+stress: FAIL: [15492] (415) <-- worker 15493 got signal 15
+stress: WARN: [15492] (417) now reaping child worker processes
+stress: FAIL: [15492] (451) failed run completed in 87s
